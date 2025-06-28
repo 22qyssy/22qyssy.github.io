@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小学毕业 | 纪念我们的童年时光</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义参数 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#000000',       // 主色：纯黑，体现质感
+            secondary: '#ffffff',     // 白色背景
+            accent: '#FF5B50',        // 苹果红变种，作为强调色
+            neutral: '#F5F5F7',       // 浅灰背景
+            lightBlue: '#F0F7FF',     // 浅蓝色，用于童趣元素
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            display: ['"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .apple-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      }
+      .parallax {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    }
+  </style>
+  
+  <style>
+    /* 平滑滚动 */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* 苹果风格滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    /* 图片加载动画 */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* 打字动画 */
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    .typing-animation {
+      border-right: 2px solid #000;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 2s steps(30, end);
+    }
+  </style>
+</head>
+<body class="bg-secondary text-primary antialiased">
+  <!-- 导航栏 - 苹果风格透明导航 -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-center items-center">
+      <div class="flex justify-between w-full max-w-7xl">
+        <!-- 左侧Logo -->
+        <a href="#" class="text-2xl font-bold">毕业季</a>
+        
+        <!-- 中间导航 - 桌面端 -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#home" class="text-sm font-medium hover:text-accent transition-colors">首页</a>
+          <a href="#memory" class="text-sm font-medium hover:text-accent transition-colors">成长记忆</a>
+          <a href="#classmates" class="text-sm font-medium hover:text-accent transition-colors">班级风采</a>
+          <a href="#message" class="text-sm font-medium hover:text-accent transition-colors">毕业留言</a>
+          <a href="#album" class="text-sm font-medium hover:text-accent transition-colors">纪念相册</a>
+        </div>
+        
+        <!-- 右侧图标 - 桌面端 -->
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="#search" class="text-sm hover:text-accent transition-colors"><i class="fa fa-search"></i></a>
+          <a href="#share" class="text-sm hover:text-accent transition-colors"><i class="fa fa-share-alt"></i></a>
+        </div>
+        
+        <!-- 移动端菜单按钮 -->
+        <button id="menuBtn" class="md:hidden text-primary text-xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <a href="#home" class="text-sm font-medium hover:text-accent transition-colors py-2">首页</a>
+        <a href="#memory" class="text-sm font-medium hover:text-accent transition-colors py-2">成长记忆</a>
+        <a href="#classmates" class="text-sm font-medium hover:text-accent transition-colors py-2">班级风采</a>
+        <a href="#message" class="text-sm font-medium hover:text-accent transition-colors py-2">毕业留言</a>
+        <a href="#album" class="text-sm font-medium hover:text-accent transition-colors py-2">纪念相册</a>
+        <div class="pt-2 border-t border-gray-200 flex space-x-4">
+          <a href="#search" class="text-sm hover:text-accent transition-colors"><i class="fa fa-search mr-1"></i> 搜索</a>
+          <a href="#share" class="text-sm hover:text-accent transition-colors"><i class="fa fa-share-alt mr-1"></i> 分享</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区域 - 全屏沉浸式设计 -->
+  <section id="home" class="pt-20 pb-20 md:pt-32 md:pb-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-black z-0"></div>
+    <img src="https://picsum.photos/id/145/1920/1080" alt="小学毕业合影" class="w-full h-screen object-cover absolute top-0 left-0 z-0">
+    
+    <div class="container mx-auto px-4 relative z-20 h-screen flex flex-col justify-center items-center text-center">
+      <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white mb-4 leading-tight">
+        我们毕业啦
+      </h1>
+      <p class="text-[clamp(1rem,3vw,1.5rem)] text-white/90 mb-8 max-w-3xl px-4">
+        <span class="inline-block typing-animation" style="width: 28ch;"></span>
+      </p>
+      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+        <a href="#memory" class="px-8 py-3 bg-white text-primary font-medium rounded-md hover:bg-gray-100 transition-colors inline-flex items-center justify-center apple-shadow">
+          查看成长记忆 <i class="fa fa-arrow-right ml-2"></i>
+        </a>
+        <a href="#message" class="px-8 py-3 bg-transparent border-2 border-white text-white font-medium rounded-md hover:bg-white/10 transition-colors inline-flex items-center justify-center">
+          写下毕业留言 <i class="fa fa-pencil ml-2"></i>
+        </a>
+      </div>
+    </div>
+    
+    <!-- 滚动提示 -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+      <a href="#memory" class="text-white/70 hover:text-white transition-colors">
+        <i class="fa fa-chevron-down text-2xl"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- 成长记忆区 - 苹果分栏布局 -->
+  <section id="memory" class="py-16 md:py-24 bg-secondary">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-6">六年时光，<span class="text-accent">我们的成长故事</span></h2>
+          <p class="text-gray-600 mb-8 text-lg">从一年级的陌生到六年级的默契，每一步成长都刻着我们的名字。这里记录着运动会的呐喊、课堂上的笑声、课间十分钟的追逐，还有那些藏在课桌里的小秘密。</p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-accent/10 text-accent rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold mb-2">一年级 · 入学第一天</h3>
+                <p class="text-gray-600">2019年9月1日，我们带着好奇和紧张走进校园，第一次戴上红领巾，第一次知道同桌的名字。</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-accent/10 text-accent rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-trophy"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold mb-2">三年级 · 运动会夺冠</h3>
+                <p class="text-gray-600">比赛最后的反超，全班同学的呐喊声至今还记得。我们为班级荣誉拼尽全力的样子，真的很酷。</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-accent/10 text-accent rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-book"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold mb-2">五年级 · 研学旅行</h3>
+                <p class="text-gray-600">离开父母的研学之旅，我们在博物馆里探索，在田野间奔跑，原来学习可以这么有趣。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="relative">
+            <img src="https://picsum.photos/id/237/800/600" alt="成长记忆" class="w-full h-auto rounded-2xl apple-shadow">
+            <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl apple-shadow max-w-xs">
+              <p class="text-sm text-gray-600">“还记得吗？你第一次举手回答问题时，紧张得声音都在发抖，现在已经能在全班面前自信演讲了。”</p>
+              <div class="mt-3 flex items-center">
+                <img src="https://picsum.photos/id/64/50/50" alt="老师" class="w-10 h-10 rounded-full mr-3">
+                <div>
+                  <p class="text-xs font-medium">李老师</p>
+                  <p class="text-xs text-gray-500">班主任</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 班级风采区 - 苹果卡片布局 -->
+  <section id="classmates" class="py-16 md:py-24 bg-neutral">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">班级风采，<span class="text-accent">我们的大家庭</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">62张笑脸，62个故事，组成了我们最温暖的集体。在这里，我们学会了分享、合作，也收获了最纯真的友谊。</p>
+      </div>
+      
+      <!-- 班级合照 -->
+      <div class="text-center mb-16 fade-in">
+        <div class="relative inline-block">
+          <img src="https://picsum.photos/id/201/1200/400" alt="班级合照" class="w-full max-w-5xl rounded-2xl apple-shadow">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center">
+            <div class="p-6 md:p-8 text-white text-center">
+              <h3 class="text-2xl md:text-3xl font-bold mb-2">2019级7班 · 我们的家</h3>
+              <p class="text-lg">62位同学 · 4位老师 · 2019-2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 同学展示 -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <!-- 同学卡片 1 -->
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/64/300/300" alt="张城瑜" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">张城瑜</h4>
+            <p class="text-sm text-gray-500">班长</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/65/300/300" alt="于昀晓" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">于昀晓</h4>
+            <p class="text-sm text-gray-500">语文课代表</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/91/300/300" alt="曾小米" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">曾小米</h4>
+            <p class="text-sm text-gray-500">数学课代表</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/26/300/300" alt="崔梓轩" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">崔梓轩</h4>
+            <p class="text-sm text-gray-500">英语课代表</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/61/300/300" alt="盛舒洋 王天佑" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">盛舒洋 王天佑</h4>
+            <p class="text-sm text-gray-500">科学课代表</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl overflow-hidden apple-shadow hover-lift fade-in">
+          <div class="h-60 overflow-hidden">
+            <img src="https://picsum.photos/id/24/300/300" alt="程楠越" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 text-center">
+            <h4 class="font-bold">程楠越</h4>
+            <p class="text-sm text-gray-500">宣传委员</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#all-classmates" class="inline-flex items-center text-accent font-medium hover:underline">
+          查看全班同学 <i class="fa fa-angle-right ml-1"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 毕业留言区 - 苹果表单设计 -->
+  <section id="message" class="py-16 md:py-24 bg-secondary">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <div class="bg-neutral rounded-2xl p-8 md:p-10 apple-shadow">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">留下你的毕业留言</h2>
+            <p class="text-gray-600 mb-8">多年以后，当我们再次翻开这本纪念册，这些文字会让我们想起此刻的感动。写下对同学的祝福、对老师的感谢，或是对未来的期许吧。</p>
+            
+            <form id="messageForm" class="space-y-6">
+              <div>
+                <label for="name" class="block text-sm font-medium mb-2">你的名字</label>
+                <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" placeholder="请输入你的名字">
+              </div>
+              
+              <div>
+                <label for="title" class="block text-sm font-medium mb-2">留言标题</label>
+                <input type="text" id="title" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" placeholder="例如：致我最好的朋友">
+              </div>
+              
+              <div>
+                <label for="content" class="block text-sm font-medium mb-2">留言内容</label>
+                <textarea id="content" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors resize-none" placeholder="分享你的毕业心情、祝福或难忘的故事..."></textarea>
+              </div>
+              
+              <button type="submit" class="w-full py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-colors flex items-center justify-center apple-shadow">
+                <i class="fa fa-paper-plane mr-2"></i> 提交留言
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-6">同学留言精选</h2>
+          
+          <div class="space-y-8">
+            <!-- 留言 1 -->
+            <div class="bg-white rounded-2xl p-6 apple-shadow hover-lift">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-bold text-lg">王天佑</h3>
+                  <p class="text-sm text-gray-500">2025年6月10日</p>
+                </div>
+                <div class="bg-accent/10 text-accent text-xs px-3 py-1 rounded-full">班长</div>
+              </div>
+              <h4 class="font-medium mb-3">致亲爱的同学们</h4>
+              <p class="text-gray-600">
+                六年的时光，我们一起笑过、哭过、闹过，这些都是我最珍贵的回忆。毕业不是终点，而是新的起点。愿我们在新的校园里，继续追逐梦想，创造更加美好的未来！
+              </p>
+            </div>
+            
+            <!-- 留言 2 -->
+            <div class="bg-white rounded-2xl p-6 apple-shadow hover-lift">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-bold text-lg">楼韫宁</h3>
+                  <p class="text-sm text-gray-500">2025年6月9日</p>
+                </div>
+                <div class="bg-accent/10 text-accent text-xs px-3 py-1 rounded-full">学习委员</div>
+              </div>
+              <h4 class="font-medium mb-3">那些年，我们一起奋斗的日子</h4>
+              <p class="text-gray-600">
+                还记得我们一起为了考试而奋斗的日子吗？那些一起熬夜复习、互相鼓励的场景，是我最难忘的。感谢老师的教导，感谢同学们的陪伴，让我的小学生活如此丰富多彩。
+              </p>
+            </div>
+            
+            <!-- 留言 3 -->
+            <div class="bg-white rounded-2xl p-6 apple-shadow hover-lift">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h3 class="font-bold text-lg">张城瑜</h3>
+                  <p class="text-sm text-gray-500">2025年6月8日</p>
+                </div>
+                <div class="bg-accent/10 text-accent text-xs px-3 py-1 rounded-full">体育委员</div>
+              </div>
+              <h4 class="font-medium mb-3">致我最好的队友</h4>
+              <p class="text-gray-600">
+                运动会上我们一起挥洒汗水，体育课上我们一起追逐打闹。谢谢你们在我跑不动的时候拉我一把，在我摔倒的时候扶我起来。希望我们以后还能一起在球场上奔跑！
+              </p>
+            </div>
+          </div>
+          
+          <div class="text-right mt-8">
+            <a href="#more-messages" class="inline-flex items-center text-accent font-medium hover:underline">
+              查看更多留言 <i class="fa fa-angle-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 纪念相册区 - 苹果图片墙 -->
+  <section id="album" class="py-16 md:py-24 bg-neutral relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -translate-y-1/4 translate-x-1/4 z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-y-1/4 -translate-x-1/4 z-0"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">纪念相册，<span class="text-accent">定格美好瞬间</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">每一张照片都是时光的标本，记录着我们在校园里的点点滴滴。滑动浏览，寻找属于你的独家记忆。</p>
+      </div>
+      
+      <!-- 图片墙 -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/237/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/325/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/433/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/175/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/169/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in">
+          <div class="aspect-square rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/201/400/400" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in col-span-2 lg:col-span-3">
+          <div class="aspect-[3/2] rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/145/800/500" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+        
+        <div class="fade-in col-span-2 lg:col-span-3">
+          <div class="aspect-[3/2] rounded-2xl overflow-hidden apple-shadow hover-lift">
+            <img src="https://picsum.photos/id/65/800/500" alt="校园生活" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#full-album" class="inline-flex items-center text-accent font-medium hover:underline">
+          查看完整相册 <i class="fa fa-angle-right ml-1"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 - 苹果风格极简设计 -->
+  <footer class="py-12 border-t border-gray-200">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h3 class="text-lg font-bold mb-4">关于毕业季</h3>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li><a href="#" class="hover:text-accent transition-colors">网站介绍</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">照片上传</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">留言须知</a></li>
+            <li><a href="#" class="hover:text-accent transition-colors">联系我们</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-4">快速链接</h3>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li><a href="#home" class="hover:text-accent transition-colors">首页</a></li>
+            <li><a href="#memory" class="hover:text-accent transition-colors">成长记忆</a></li>
+            <li><a href="#classmates" class="hover:text-accent transition-colors">班级风采</a></li>
+            <li><a href="#message" class="hover:text-accent transition-colors">毕业留言</a></li>
+            <li><a href="#album" class="hover:text-accent transition-colors">纪念相册</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-4">分享纪念册</h3>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li class="flex items-center">
+              <i class="fa fa-weixin text-accent mr-2"></i>
+              <span>微信分享</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-qq text-accent mr-2"></i>
+              <span>QQ分享</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-weibo text-accent mr-2"></i>
+              <span>微博分享</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-link text-accent mr-2"></i>
+              <span>复制链接</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-4">联系我们</h3>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li class="flex items-start">
+              <i class="fa fa-envelope text-accent mt-1 mr-2"></i>
+              <span>young_22qyssy@qq.com</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-phone text-accent mt-1 mr-2"></i>
+              <span>+86-15258962030</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-accent mt-1 mr-2"></i>
+              <span>金华市浦江县南苑小学607班</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+        <p>© 2025 小学毕业纪念网站. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-white', 'shadow-md');
+        navbar.classList.remove('bg-transparent');
+      } else {
+        navbar.classList.remove('bg-white', 'shadow-md');
+        navbar.classList.add('bg-transparent');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuBtn.innerHTML = mobileMenu.classList.contains('hidden') 
+        ? '<i class="fa fa-bars"></i>' 
+        : '<i class="fa fa-times"></i>';
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          // 关闭移动端菜单
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+          }
+        }
+      });
+    });
+    
+    // 图片淡入动画
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('loaded');
+          fadeInObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    fadeElements.forEach(element => {
+      fadeInObserver.observe(element);
+    });
+    
+    // 留言表单提交
+    const messageForm = document.getElementById('messageForm');
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      
+      if (!name || !title || !content) {
+        alert('请填写完整的留言信息！');
+        return;
+      }
+      
+      // 获取当前日期
+      const now = new Date();
+      const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+      
+      // 创建新留言元素（简化版，实际项目中可对接后端）
+      const newMessage = `
+        <div class="bg-white rounded-2xl p-6 apple-shadow hover-lift">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="font-bold text-lg">${name}</h3>
+              <p class="text-sm text-gray-500">${dateString}</p>
+            </div>
+            <div class="bg-accent/10 text-accent text-xs px-3 py-1 rounded-full">同学</div>
+          </div>
+          <h4 class="font-medium mb-3">${title}</h4>
+          <p class="text-gray-600">${content}</p>
+        </div>
+      `;
+      
+      // 添加到留言列表顶部
+      const留言区 = document.querySelector('#message .lg\\:col-span-2');
+      if (留言区) {
+        留言区.insertAdjacentHTML('afterbegin', newMessage);
+        messageForm.reset();
+        alert('留言提交成功！');
+      }
+    });
+    
+    // 打字动画文本
+    const typingText = document.querySelector('.typing-animation');
+    if (typingText) {
+      typingText.textContent = '六年时光，我们从懵懂儿童长成了小小少年';
+    }
+  </script>
+</body>
+</html>
